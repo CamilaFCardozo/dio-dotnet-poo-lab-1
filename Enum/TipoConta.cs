@@ -1,8 +1,13 @@
-namespace DIO.Bank
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Dio_Bank.Enum
 {
     public enum TipoConta
     {
-        PessoaFisica = 1,
-        PessoaJuridica = 2
+        PessoaFisca = 1,
+        PessoaJurica = 2
     }
 }

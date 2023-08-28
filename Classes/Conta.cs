@@ -1,61 +1,85 @@
-using System;
-
-namespace DIO.Bank
+using Dio_Bank.Enum;
+namespace Dio_Bank.Classes
 {
-	public class Conta
-	{
-		// Atributos
-		private TipoConta TipoConta { get; set; }
-		private double Saldo { get; set; }
-		private double Credito { get; set; }
-		private string Nome { get; set; }
+    public class Conta
+    {
+        private TipoDocumento TipoDocumento { get; set; }
+        private int NumConta{get; set; }
+        private double Credito { get; set; }
+        private double Saldo { get; set; }
+        public TipoConta TipoConta { get; set; }
+        private string Nome{get; set; }
 
-		// Métodos
-		public Conta(TipoConta tipoConta, double saldo, double credito, string nome)
-		{
-			this.TipoConta = tipoConta;
-			this.Saldo = saldo;
-			this.Credito = credito;
-			this.Nome = nome;
-		}
+        public Conta(TipoDocumento tipoDocumento, int numConta, double credito, double saldo, TipoConta tipoConta, string nome) 
+        {
+            this.TipoDocumento = tipoDocumento;
+            this.NumConta = numConta;
+            this.Credito = credito;
+            this.Saldo = saldo;
+            this.TipoConta = tipoConta;
+            this.Nome = nome;
+        }
 
-		public bool Sacar(double valorSaque)
-		{
-            // Validação de saldo suficiente
-            if (this.Saldo - valorSaque < (this.Credito *-1)){
-                Console.WriteLine("Saldo insuficiente!");
+        public Conta(TipoConta tipoConta, double saldo, double credito, string nome)
+        {
+            TipoConta = tipoConta;
+            Saldo = saldo;
+            Credito = credito;
+            Nome = nome;
+        }
+
+        public Conta(TipoConta tipoConta, int numConta, double saldo, double credito, string nome)
+        {
+            TipoConta = tipoConta;
+            NumConta = numConta;
+            Saldo = saldo;
+            Credito = credito;
+            Nome = nome;
+        }
+
+        public bool Sacar (double valorSaque)
+        {
+            if(this.Saldo - valorSaque < (this.Credito* -1))
+            {
+                Console.WriteLine("Saldo insuficiente para realizar essa operação!");
                 return false;
             }
             this.Saldo -= valorSaque;
-
-            Console.WriteLine("Saldo atual da conta de {0} é {1}", this.Nome, this.Saldo);
-            // https://docs.microsoft.com/pt-br/dotnet/standard/base-types/composite-formatting
-
+            Console.WriteLine("Saldo Atualizado da conta n° {0} é de {1}", this.NumConta, ((this.Saldo).ToString("C2")));
+            //https://docs.microsoft.com/pt-br/dotnet/standard/base-types/composite-formatting
             return true;
-		}
 
-		public void Depositar(double valorDeposito)
-		{
-			this.Saldo += valorDeposito;
+        }
 
-            Console.WriteLine("Saldo atual da conta de {0} é {1}", this.Nome, this.Saldo);
-		}
+        public void Depositar (double valorDeposito)
+        {
+           
+            this.Saldo += valorDeposito;
+            Console.WriteLine("Saldo Atualizado da conta n° {0} é de {1}", this.NumConta, this.Saldo);
+        }
 
-		public void Transferir(double valorTransferencia, Conta contaDestino)
-		{
-			if (this.Sacar(valorTransferencia)){
+        public void Transferir (double valorTransferencia, Conta contaDestino)
+        {
+            if(this.Sacar(valorTransferencia))
+            {
                 contaDestino.Depositar(valorTransferencia);
             }
-		}
+        }
 
         public override string ToString()
-		{
+        {
             string retorno = "";
-            retorno += "TipoConta " + this.TipoConta + " | ";
-            retorno += "Nome " + this.Nome + " | ";
-            retorno += "Saldo " + this.Saldo + " | ";
-            retorno += "Crédito " + this.Credito;
-			return retorno;
-		}
-	}
+            retorno += "TipoConta: " + this.TipoConta + "| ";
+            retorno += "Conta n° " + (this.NumConta).ToString("00000000") + "| ";
+            retorno += "Saldo: " + (this.Saldo).ToString("C2") + "| ";
+            retorno += "Credito: " + (this.Credito).ToString("C2") + "| ";
+            retorno += "Nome: " + this.Nome + ". ";
+            return retorno;
+        }
+
+
+
+    }
+
+   
 }
